@@ -19,11 +19,14 @@ namespace EcommerceAPI.Controllers
     {
         private readonly IUser<User> _userRepository;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(IUser<User> userRepository, IConfiguration configuration)
+        public AuthController(IUser<User> userRepository, IConfiguration configuration, ILogger<AuthController> logger)
         {
             _configuration = configuration;
             _userRepository = userRepository;
+            _logger = logger;
+
 
         }
 
@@ -46,6 +49,7 @@ namespace EcommerceAPI.Controllers
             {
                 return Unauthorized("Invalid credentials");
             }
+            _logger.LogInformation("User");
 
             // Generate JWT Token
             var token = GenerateJwtToken(UserConverter.User(loginUser)); 
